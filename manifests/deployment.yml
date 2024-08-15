@@ -22,6 +22,7 @@ spec:
           ports:
             - containerPort: 80
           resources: {}
+          
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -70,7 +71,7 @@ spec:
       initContainers:
         - name: init-db
           image: postgres:15
-          command: ['sh', '-c', 'psql -U postgres -f /docker-entrypoint-initdb.d/init.sql']
+          command: ['sh', '-c', 'psql -U postgres -f /docker-entrypoint-initdb.d/init.sql 2>&1 | tee /tmp/init.log']
           env:
             - name: POSTGRES_USER
               value: "postgres"
